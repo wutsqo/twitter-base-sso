@@ -33,14 +33,23 @@ export async function GET(request: NextRequest) {
     return new Response("CAS Authentication Failed", { status: 401 });
   }
 
-  const user = authenticationSuccess[0]["cas:user"][0];
+  const sso_username = authenticationSuccess[0]["cas:user"][0];
+  const npm = authenticationSuccess[0]["cas:attributes"][0]["cas:npm"][0];
+  const org = authenticationSuccess[0]["cas:attributes"][0]["cas:kd_org"][0];
   const session = await getServerSession(config);
   if (session?.user.email) {
     await prisma.user.update({
       where: { email: session.user.email },
-      data: { sso_id: user },
+      data: {
+        ssoUiProfile: {
+          create: {
+            username: sso_username,
+            npm: npm,
+            org_code: org,
+          },
+        },
+      },
     });
   }
-
   redirect(SITE_URL);
 }
