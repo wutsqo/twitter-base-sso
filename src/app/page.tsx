@@ -15,15 +15,12 @@ export default async function Home() {
 
   return (
     <main className="p-4 container mx-auto max-w-screen-sm flex flex-col gap-4">
-      <div className="bg-base-100 p-4 rounded-xl">
-        <div className="prose">
-          <h1>UIFESS NG 🌾🌾</h1>
-        </div>
-        <p>UIFESS NG soalnya yang lama bapuk.</p>
+      <div className="bg-base-100 p-4 sm:p-6 rounded-xl prose">
+        <h1>UIFESS NG 🌾🌾</h1>
       </div>
       {session ? (
         <>
-          <div className="flex items-center justify-between bg-base-100 rounded-xl p-4">
+          <div className="flex items-center justify-between bg-base-100 rounded-xl p-4 sm:p-6">
             <div className="flex gap-4">
               <div className="avatar">
                 <div className="w-12 mask mask-squircle">
