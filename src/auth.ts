@@ -10,6 +10,11 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+const prismaAdapter = PrismaAdapter(prisma);
+// @ts-ignore
+prismaAdapter.createUser = (data) => {
+  return prisma.user.create({ data });
+};
 
 export const config = {
   providers: [
@@ -19,7 +24,7 @@ export const config = {
     }),
   ],
   secret: process.env.NEXT_AUTH_SECRET,
-  adapter: PrismaAdapter(prisma),
+  adapter: prismaAdapter,
   callbacks: {
     session({ session, user }) {
       session.user.username = user.username;
@@ -29,12 +34,6 @@ export const config = {
     async signIn({ user, profile }) {
       if (profile) {
         user.username = profile.screen_name;
-      }
-      if (user.id) {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { username: user.username },
-        });
       }
       return Promise.resolve(true);
     },
