@@ -6,6 +6,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   text: string;
@@ -24,6 +25,7 @@ const NewTweet: FC<Props> = ({ disabled }) => {
     formState: { isValid },
   } = useForm<Inputs>();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setLoading(true);
@@ -36,6 +38,7 @@ const NewTweet: FC<Props> = ({ disabled }) => {
         })
         .finally(() => {
           setLoading(false);
+          router.refresh();
         }),
       {
         loading: "Mengirim tweet...",
@@ -56,7 +59,7 @@ const NewTweet: FC<Props> = ({ disabled }) => {
       },
       {
         success: {
-          duration: 10000,
+          duration: 5000,
         },
       }
     );
@@ -79,7 +82,7 @@ const NewTweet: FC<Props> = ({ disabled }) => {
         <textarea
           className="textarea textarea-bordered w-full text-lg"
           placeholder="Tulis tweet disini"
-          rows={6}
+          rows={4}
           required
           disabled={loading || disabled}
           {...register("text", { required: true, maxLength: limit_2 })}

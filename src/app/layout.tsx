@@ -6,8 +6,7 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "UIFESS NG 🌾🌾",
-  description: "UIFESS NG soalnya yang lama bapuk.",
+  title: "UIFESS SSO 🌾🌾",
 };
 
 export default function RootLayout({
