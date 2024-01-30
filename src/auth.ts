@@ -27,6 +27,7 @@ export const config = {
   adapter: prismaAdapter,
   callbacks: {
     session({ session, user }) {
+      session.user.id = user.id;
       session.user.username = user.username;
       session.user.sso_id = user.sso_id;
       return session;

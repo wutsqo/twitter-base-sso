@@ -2,6 +2,7 @@ import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   interface User extends DefaultSession["user"] {
+    id: string;
     username: string | null;
     sso_id: string | null;
   }

@@ -3,6 +3,9 @@
 import { mergeClassname } from "@/utils/merge-classname";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 type Inputs = {
   text: string;
@@ -13,9 +16,47 @@ const NewTweet = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isValid },
+    reset,
+    formState: { isValid },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setLoading(true);
+    toast.promise(
+      axios
+        .post("/api/tweet", data)
+        .then((res) => {
+          reset();
+          return res.data.id;
+        })
+        .finally(() => {
+          setLoading(false);
+        }),
+      {
+        loading: "Mengirim tweet...",
+        success: (id) => (
+          <span>
+            Tweet berhasil dikirim.{" "}
+            <a
+              href={`https://twitter.com/i/web/status/${id}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary"
+            >
+              Lihat tweet
+            </a>
+          </span>
+        ),
+        error: "Tweet gagal dikirim.",
+      },
+      {
+        success: {
+          duration: 10000,
+        },
+      }
+    );
+  };
   const limit_1 = 260;
   const limit_2 = 280;
   const textLength = watch("text")?.length ?? 0;
@@ -63,7 +104,7 @@ const NewTweet = () => {
           <button
             className="btn btn-primary btn-sm"
             type="submit"
-            disabled={!isValid}
+            disabled={!isValid || loading}
           >
             <PaperAirplaneIcon className="h-4 w-4" />
             Kirim
