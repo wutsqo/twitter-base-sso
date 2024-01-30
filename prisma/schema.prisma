@@ -75,4 +75,6 @@ model Tweet {
     is_deleted   Boolean       @default(false)
     sso_id       String?
     ssoUiProfile SsoUiProfile? @relation(fields: [sso_id], references: [username])
+    created_at   DateTime      @default(now())
+    updated_at   DateTime      @updatedAt
 }
