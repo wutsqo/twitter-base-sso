@@ -42,10 +42,13 @@ export async function GET(request: NextRequest) {
       where: { email: session.user.email },
       data: {
         ssoUiProfile: {
-          create: {
-            username: sso_username,
-            npm: npm,
-            org_code: org,
+          connectOrCreate: {
+            where: { username: sso_username },
+            create: {
+              username: sso_username,
+              npm: npm,
+              org_code: org,
+            },
           },
         },
       },
