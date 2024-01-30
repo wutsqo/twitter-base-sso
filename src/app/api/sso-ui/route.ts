@@ -1,13 +1,11 @@
 import { config } from "@/auth";
 import { CAS_SERVICE_URL, CAS_VALIDATE_URL, SITE_URL } from "@/config";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma";
 import axios from "axios";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { parseStringPromise } from "xml2js";
-
-const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

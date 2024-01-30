@@ -7,9 +7,8 @@ import type { NextAuthOptions } from "next-auth";
 import { getServerSession } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import prisma from "./prisma";
 
-const prisma = new PrismaClient();
 const prismaAdapter = PrismaAdapter(prisma);
 // @ts-ignore
 prismaAdapter.createUser = (data) => {

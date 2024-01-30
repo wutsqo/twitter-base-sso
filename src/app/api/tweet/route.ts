@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma";
 import { TwitterApi } from "twitter-api-v2";
 import { getServerSession } from "next-auth";
 import { config } from "@/auth";
@@ -9,8 +9,6 @@ const client = new TwitterApi({
   accessToken: process.env.TWITTER_BOT_ACCESS_TOKEN as string,
   accessSecret: process.env.TWITTER_BOT_ACCESS_SECRET as string,
 });
-
-const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   const session = await getServerSession(config);
