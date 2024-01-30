@@ -53,8 +53,7 @@ export default async function Home() {
               Verifikasi dengan SSO UI
             </Link>
           )}
-          <Navigation />
-          <NewTweet />
+          <NewTweet disabled={!session.user.sso_id} />
         </>
       ) : (
         <LoginButton />

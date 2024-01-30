@@ -4,14 +4,18 @@ import { mergeClassname } from "@/utils/merge-classname";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import { useState } from "react";
+import { FC, useState } from "react";
 import toast from "react-hot-toast";
 
 type Inputs = {
   text: string;
 };
 
-const NewTweet = () => {
+interface Props {
+  disabled?: boolean;
+}
+
+const NewTweet: FC<Props> = ({ disabled }) => {
   const {
     register,
     handleSubmit,
@@ -77,6 +81,7 @@ const NewTweet = () => {
           placeholder="Tulis tweet disini"
           rows={6}
           required
+          disabled={loading || disabled}
           {...register("text", { required: true, maxLength: limit_2 })}
         ></textarea>
         <div className="flex justify-end gap-2 items-center mt-2">
@@ -104,7 +109,7 @@ const NewTweet = () => {
           <button
             className="btn btn-primary btn-sm"
             type="submit"
-            disabled={!isValid || loading}
+            disabled={!isValid || loading || disabled}
           >
             <PaperAirplaneIcon className="h-4 w-4" />
             Kirim
